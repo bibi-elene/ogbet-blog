@@ -1,0 +1,80 @@
+.App {
+  font-family: Arial, sans-serif;
+  color: #333;
+  padding: 20px;
+  text-align: center;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.link {
+  text-decoration: none;
+  color: #ff5722;
+  font-weight: bold;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.main {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2rem;
+  color: #4caf50;
+}
+
+.description {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.button {
+  padding: 10px;
+  font-size: 1rem;
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #e64a19;
+}
+
+.message {
+  margin-top: 15px;
+  color: #4caf50;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    flex-direction: column;
+    align-items: center;
+  }
+}
