@@ -1,3 +1,15 @@
+## What was used: 
+  - **Leads**: created Hubspot account and App for leads, included credentials provided in .env (https://app.hubspot.com/contacts/48588240/objects/0-1/views/all/list)
+  - **Styling**: basic css and bootstrap for achieving responsiveness faster with less code
+  - **Backend**: basic express server to handle lead submission and provide feedback
+  - **Wordpress**: used **Local** (https://localwp.com/) for hosting and testing wordpress set up locally
+  - **Tracking**: Google Analytics with dummy ID. Included events: Page View, event (after submitting leads or clicking Play Now button)
+  - **Prettier**: For formatting the code
+
+and others.. 
+
+
+## Modified parts of 
 ## **1. Philosophy & Approach**
 
 ### **Landing Page Design (React)**
@@ -127,10 +139,5 @@
    - [https://developers.google.com/analytics/](https://developers.google.com/analytics/)
 4. **WordPress SEO (Yoast)**:  
    - [https://yoast.com/wordpress/plugins/seo/](https://yoast.com/wordpress/plugins/seo/)
-
----
-
-## **Key Takeaways**
-This hybrid solution combines the **speed and interactivity** of React with the **content flexibility** of WordPress. The integration with **HubSpot** CRM and Google Analytics ensures a robust system for capturing leads and monitoring user interactions. SEO and accessibility practices further optimize the website for visibility and usability.
 
 ---

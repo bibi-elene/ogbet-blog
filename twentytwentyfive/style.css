@@ -1,0 +1,163 @@
+/*
+Theme Name: Twenty Twenty-Five Custom
+Theme URI: https://wordpress.org/themes/twentytwentyfive/
+Author: the WordPress team
+Author URI: https://wordpress.org
+Description: Customized version of Twenty Twenty-Five theme with enhanced branding, CTAs, and layout tweaks for OGBet Blog.
+Requires at least: 6.7
+Tested up to: 6.7
+Requires PHP: 7.2
+Version: 1.1
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: twentytwentyfive
+Tags: custom-colors, custom-menu, custom-logo, featured-images, accessibility-ready, blog, portfolio, news, responsive
+*/
+
+body {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+:root {
+  --primary-color: #ff5722; /* OGBet Primary Color */
+  --secondary-color: #4caf50; /* OGBet Secondary Color */
+  --text-dark: #333;
+  --text-light: #fff;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration-thickness: 1px !important;
+  text-underline-offset: 0.1em;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+:where(.wp-site-blocks *:focus) {
+  outline-width: 2px;
+  outline-style: solid;
+  outline-color: var(--primary-color);
+}
+
+.button,
+.wp-block-button__link {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover,
+.wp-block-button__link:hover {
+  background-color: var(--secondary-color);
+  color: var(--text-light);
+}
+
+.wp-block-site-title a {
+  font-size: 2rem;
+  color: var(--primary-color);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.wp-block-site-title a:hover {
+  color: var(--secondary-color);
+}
+
+.wp-block-navigation {
+  margin-top: 10px;
+}
+
+.wp-block-navigation__container {
+  display: flex;
+  gap: 20px;
+}
+
+/* Navigation Submenu Fix */
+.wp-block-navigation
+  .wp-block-navigation-submenu
+  .wp-block-navigation-item:not(:last-child) {
+  margin-bottom: 3px;
+}
+
+.hero-section {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  text-align: center;
+  padding: 3rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.hero-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero-section p {
+  font-size: 1.1rem;
+}
+
+footer {
+  background-color: #222;
+  color: #ddd;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+footer a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--secondary-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote,
+caption,
+figcaption,
+p {
+  text-wrap: pretty;
+  margin-bottom: 1rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .wp-block-navigation__container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .hero-section p {
+    font-size: 1rem;
+  }
+
+  .button,
+  .wp-block-button__link {
+    padding: 8px 16px;
+  }
+}

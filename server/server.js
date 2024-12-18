@@ -123,7 +123,7 @@ app.post("/api/submit-lead", async (req, res) => {
     } else {
       console.error("HubSpot API Error:", responseData);
       res.status(500).json({
-        message: "HubSpot API submission failed",
+        message: `HubSpot API submission failed - ${responseData.message}`,
         details: responseData,
       });
     }

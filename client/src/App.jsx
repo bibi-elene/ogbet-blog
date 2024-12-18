@@ -1,26 +1,29 @@
 import { useState } from "react";
-import { submitLead } from "./api";
-import "./App.css";
+import { submitLead } from "./script";
+import "./style.css";
 
 function App() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
+    setIsSuccess(false);
 
     if (!name || !email) {
       setMessage("Please fill out all fields.");
+      setIsSuccess(false);
       return;
     }
 
     try {
       const result = await submitLead(name, email);
       setMessage(result.message);
+      setIsSuccess(true);
 
-      // GA tracking
       if (typeof window.gtag === "function") {
         window.gtag("event", "lead_form_submission", {
           event_category: "Lead Capture",
@@ -29,6 +32,7 @@ function App() {
       }
     } catch (error) {
       setMessage(error.message || "An error occurred.");
+      setIsSuccess(false);
     }
   };
 
@@ -68,31 +72,38 @@ function App() {
       </header>
 
       <main className="container">
-        <div className="p-5 mb-4 bg-light rounded-3 text-center">
-          <h1 className="display-4">Claim 50 Free Spins!</h1>
-          <p className="lead">
-            Sign up now and start winning with top-rated slots and live tables.
-          </p>
-          <ul className="list-unstyled">
-            <li>✔ No deposit needed</li>
-            <li>✔ Instant payouts</li>
-            <li>✔ Trusted by thousands of players</li>
-          </ul>
-          <button
-            className="btn btn-success btn-lg mt-3"
-            onClick={() => {
-              if (typeof window.gtag === "function") {
-                window.gtag("event", "click", {
-                  event_category: "CTA",
-                  event_label: "Play Now Button",
-                });
-              }
-              // Redirect user or open a modal, etc.
-              window.location.href = "/play";
-            }}
-          >
-            Play Now
-          </button>
+        <div className="position-relative rounded overflow-hidden bg-image text-white text-center p-5 mb-4">
+          <div className="overlay"></div>
+          <div className="position-relative z-2">
+            <h1 className="display-4 fw-bold text-shadow">Claim 50 Free Spins!</h1>
+            <p className="lead text-shadow">
+              Sign up now and start winning with top-rated slots and live tables.
+            </p>
+            <ul className="list-unstyled mb-4 text-shadow">
+              <li>✔ No deposit needed</li>
+              <li>✔ Instant payouts</li>
+              <li>✔ Trusted by thousands of players</li>
+            </ul>
+            <button
+              className="btn btn-success btn-lg"
+              onClick={() => {
+                if (typeof window.gtag === "function") {
+                  window.gtag("event", "click", {
+                    event_category: "CTA",
+                    event_label: "Play Now Button",
+                  });
+                }
+              }}
+            >
+              Play Now
+            </button>
+          </div>
+          <img
+            src="/aiWallpaper.webp"
+            alt="casino-background"
+            loading="lazy"
+            className="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
+          />
         </div>
 
         <div className="row justify-content-center">
@@ -119,8 +130,17 @@ function App() {
               <button type="submit" className="btn btn-primary w-100">
                 Submit
               </button>
-              {message && <p className="mt-3 text-center">{message}</p>}
             </form>
+            {message && (
+              <div
+                className={`alert mt-3 ${
+                  isSuccess ? "alert-success" : "alert-danger"
+                }`}
+                role="alert"
+              >
+                {message}
+              </div>
+            )}
           </div>
         </div>
       </main>
