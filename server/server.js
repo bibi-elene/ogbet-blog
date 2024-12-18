@@ -9,26 +9,36 @@ const querystring = require("querystring");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
-app.use(bodyParser.json());
+// Middleware Setup
+app.use(cors()); // Enable CORS for cross-origin requests
+app.use(bodyParser.json()); // Parse JSON payloads
 
+// HubSpot OAuth Configuration
 const HUBSPOT_CLIENT_ID = process.env.HUBSPOT_CLIENT_ID;
 const HUBSPOT_CLIENT_SECRET = process.env.HUBSPOT_CLIENT_SECRET;
 const REDIRECT_URI = "http://localhost:3001/oauth-callback";
+let accessToken = null; // Store the OAuth access token
+let refreshToken = null; // Store the OAuth refresh token
+
 console.log(HUBSPOT_CLIENT_ID, "the id");
-// OAuth Redirect URL
+
+/**
+ * STEP 1: Initiate HubSpot OAuth flow
+ * Redirects the user to HubSpot's OAuth consent page
+ */
 app.get("/oauth", (req, res) => {
   const authUrl = `https://app.hubspot.com/oauth/authorize?client_id=${HUBSPOT_CLIENT_ID}&redirect_uri=${encodeURIComponent(
     REDIRECT_URI
-  )}&scope=crm.objects.contacts.write`;
-  res.redirect(authUrl);
+  )}&scope=crm.objects.contacts.write`; // Required scope for CRM API
+  res.redirect(authUrl); // Redirect user to the HubSpot OAuth URL
 });
 
-let accessToken = null;
-let refreshToken = null;
-
+/**
+ * STEP 2: OAuth Callback - Exchange Authorization Code for Tokens
+ * HubSpot sends a code; we exchange it for access and refresh tokens
+ */
 app.get("/oauth-callback", async (req, res) => {
-  const { code } = req.query;
+  const { code } = req.query; // Extract the authorization code from query params
 
   try {
     const response = await fetch("https://api.hubapi.com/oauth/v1/token", {
@@ -45,6 +55,7 @@ app.get("/oauth-callback", async (req, res) => {
 
     const data = await response.json();
 
+    // Store access and refresh tokens
     if (data.access_token) {
       accessToken = data.access_token;
       refreshToken = data.refresh_token;
@@ -60,6 +71,10 @@ app.get("/oauth-callback", async (req, res) => {
   }
 });
 
+/**
+ * Utility: Refresh Access Token using Refresh Token
+ * HubSpot tokens expire; refresh when needed
+ */
 const refreshAccessToken = async () => {
   try {
     const response = await fetch("https://api.hubapi.com/oauth/v1/token", {
@@ -85,15 +100,21 @@ const refreshAccessToken = async () => {
   }
 };
 
+/**
+ * STEP 3: Submit Lead to HubSpot CRM
+ * Endpoint to accept lead data and send it to HubSpot CRM API
+ */
 app.post("/api/submit-lead", async (req, res) => {
-  const { name, email } = req.body;
+  const { name, email } = req.body; // Extract name and email from request body
 
   if (!accessToken) {
     return res.status(401).json({ message: "Not authenticated with HubSpot." });
   }
 
+  // Refresh the access token to avoid expired tokens
   await refreshAccessToken();
 
+  // Prepare lead data for HubSpot API
   const data = {
     properties: {
       email: email,
@@ -102,13 +123,14 @@ app.post("/api/submit-lead", async (req, res) => {
   };
 
   try {
+    // Send POST request to HubSpot CRM API to create a new contact
     const response = await fetch(
       "https://api.hubapi.com/crm/v3/objects/contacts",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`, // Use the refreshed access token
         },
         body: JSON.stringify(data),
       }
