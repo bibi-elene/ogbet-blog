@@ -15,8 +15,7 @@ Tags: custom-colors, custom-menu, custom-logo, featured-images, accessibility-re
 */
 
 body {
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif, sans-serif;
+  font-family: "Jost", Arial;
   line-height: 1.6;
   color: #333;
   background-color: #f9f9f9;

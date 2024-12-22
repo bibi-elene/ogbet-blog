@@ -20,7 +20,7 @@ const REDIRECT_URI = "http://localhost:3001/oauth-callback";
 let accessToken = null; // Store the OAuth access token
 let refreshToken = null; // Store the OAuth refresh token
 
-console.log(HUBSPOT_CLIENT_ID, "the id");
+console.log("My Client ID:", HUBSPOT_CLIENT_ID);
 
 /**
  * STEP 1: Initiate HubSpot OAuth flow
@@ -59,8 +59,6 @@ app.get("/oauth-callback", async (req, res) => {
     if (data.access_token) {
       accessToken = data.access_token;
       refreshToken = data.refresh_token;
-      console.log("Access Token:", accessToken);
-      console.log("Refresh Token:", refreshToken);
       res.send("OAuth Successful! Access and refresh tokens acquired.");
     } else {
       res.status(500).send("Failed to get tokens from HubSpot.");
@@ -91,7 +89,6 @@ const refreshAccessToken = async () => {
     const data = await response.json();
     if (data.access_token) {
       accessToken = data.access_token; // Update the access token
-      console.log("Access token refreshed:", accessToken);
     } else {
       throw new Error("Failed to refresh access token");
     }
